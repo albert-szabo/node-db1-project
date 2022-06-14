@@ -14,7 +14,7 @@ router.get('/', async (request, response, next) => {
 });
 
 router.get('/:id', checkAccountId, (request, response, next) => {
-  // DO YOUR MAGIC
+  response.json(request.account);
 });
 
 router.post('/', checkAccountPayload, checkAccountNameUnique, (request, response, next) => {
