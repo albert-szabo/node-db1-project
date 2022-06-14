@@ -1,9 +1,16 @@
 const router = require('express').Router()
 
+const Accounts = require('./accounts-model');
+
 const { checkAccountPayload, checkAccountNameUnique, checkAccountId } = require('./accounts-middleware');
 
-router.get('/', (request, response, next) => {
-  // DO YOUR MAGIC
+router.get('/', async (request, response, next) => {
+  try {
+    const accounts = await Accounts.getAll();
+    response.json(accounts);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/:id', checkAccountId, (request, response, next) => {
@@ -22,9 +29,7 @@ router.delete('/:id', checkAccountId, (rerequestq, response, next) => {
   // DO YOUR MAGIC
 });
 
-router.use((error, request, response, next) => { // eslint-disable-line
-  // DO YOUR MAGIC
-
+router.use((error, request, response, next) => {
   response.status(error.status || 500).json({
     message: error.message || 'An internal server error occurred.'
   });
