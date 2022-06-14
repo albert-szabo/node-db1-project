@@ -35,8 +35,13 @@ router.put('/:id', checkAccountId, checkAccountPayload, async (request, response
   }
 });
 
-router.delete('/:id', checkAccountId, (rerequestq, response, next) => {
-  // DO YOUR MAGIC
+router.delete('/:id', checkAccountId, async (request, response, next) => {
+  try {
+    await Accounts.deleteById(request.params.id);
+    response.json(request.account);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.use((error, request, response, next) => {
