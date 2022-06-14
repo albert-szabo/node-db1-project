@@ -16,8 +16,7 @@ exports.checkAccountPayload = (request, response, next) => {
   } else if (budget < 0 || budget > 1000000) {
     next({ status: 400, message: 'budget of account is too large or too small' });
   } else {
-    request.name = name;
-    request.budget = budget;
+    request.body.name = name.trim();
     next();
   }
 };

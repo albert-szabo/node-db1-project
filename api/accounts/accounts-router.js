@@ -17,8 +17,13 @@ router.get('/:id', checkAccountId, (request, response, next) => {
   response.json(request.account);
 });
 
-router.post('/', checkAccountPayload, checkAccountNameUnique, (request, response, next) => {
-  // DO YOUR MAGIC
+router.post('/', checkAccountPayload, checkAccountNameUnique, async (request, response, next) => {
+  try {
+    const newAccount = await Accounts.create(request.body);
+    response.status(201).json(newAccount);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.put('/:id', checkAccountId, checkAccountPayload, checkAccountNameUnique, (request, response, next) => {
